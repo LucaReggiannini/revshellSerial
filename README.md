@@ -1,3 +1,3 @@
-# revshellSerial
+# revshellAirgap
 
 coming soon
