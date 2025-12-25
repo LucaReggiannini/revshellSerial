@@ -36,3 +36,12 @@ flowchart TD
   AP <--> |Upstream connectivity| NET
 
 ```
+
+## Components
+
+### ATtiny85
+<img src="ATTiny85.png" width="300" alt="ATTiny85.png">
+
+### ESP8266 Wi-Fi
+<img src="esp8266.png" width="300" alt="esp8266.png">
+
