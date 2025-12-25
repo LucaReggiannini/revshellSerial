@@ -1,6 +1,6 @@
 # revshellAirgap (PoC)
 
-revshellAirgap is a proof of concept showing a lab technique to reach an interactive Reverse Shell on a network-isolated Windows host with no Internet access. For educational, authorized testing only. Do not use on systems you do not own or have explicit permission to test.
+revshellAirgap is a proof of concept showing a lab technique to enstablish an interactive Reverse Shell on a network-isolated Windows host with no Internet access. This is for educational, authorized testing only. Do not use on systems you do not own or have explicit permission to test.
 
 ## Demo
 
@@ -16,7 +16,7 @@ This PoC uses three small components to relay an interactive session from an air
 - ESP8266 (USB COM device): exposes a virtual COM port and forwards data between COM and a Wi-Fi connection
 - Android phone: provides the Wi-Fi Rogue access point used by the ESP8266 to reach the Internet
 
-The target does not use its own network adapters for this traffic. Data goes:
+The target does not use its own network adapters for this traffic. Data path:
 
 PowerShell Reverse Shell -> COM port -> ESP8266 -> Wi-Fi Rogue access point -> Internet -> Command and Control
 
@@ -87,7 +87,7 @@ KERNEL=="ttyACM*", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0753", MODE:="066
 # OWNER:="yourusername" to create the device owned by you, or with
 # GROUP:="somegroupname" and mange access using standard unix groups.
 ```
-5. Additionally, to be able to upload your sketch on ESP8266, you need to have the right permissions for the `/dev/ttyUSBX` file used by the device (Linux only):
+5. Additionally, to be able to upload your sketch on ESP8266, you need to have the right permissions for the `/dev/ttyUSBX` file used by the device (Linux only). You need to reboot after the following commands:
 ```bash
 me@macbook:~$ ls -l /dev/ttyUSB0
 crw-rw---- 1 root uucp 188, 0 Dec 20 05:16 /dev/ttyUSB0
@@ -104,7 +104,7 @@ me@macbook:~$ sudo usermod -aG uucp $USER
 
 ## Final notes
 
-* This approach works even if the target is network-isolated (by firewall rules, security policies and similar): the reverse shell is carried over the rogue Wi-Fi Access Point and the target’s network interfaces are never used. No traffic will be generated or monitored
+* This approach works even if the target is network-isolated (by firewall rules, security policies and similar): the reverse shell is carried over the rogue Wi-Fi Access Point and the target’s network interfaces are never used. No traffic will be generated or monitored (Warning: while the target host generates no network traffic, the upstream connection, from ESP8266/AP to your server, is unencrypted by default and may be monitored or logged by networks/providers along the path!)
 * You need physical access to plug in the BadUSB devices. Every time you want to interact with the shell the USB module must stay within Wi-Fi range of your Access Point
 * With only ~512 bytes of memory on the ATtiny85, the bootstrap must remain minimal. However, it still includes enough logic to keep enumerating serial ports even if the USB module is unplugged/plugged back in, forward data to/from the virtual COM port, and automatically re-establish the session after link drops. Because of these memory limitations, the POC is volatile: it lasts only until reboot or user logoff; persistence is out of scope and must be implemented separately
 * It is possible to extend this PoC, for example by porting the bootstrap to Linux targets or by using a cellular data link (2G/3G/4G/5G) instead of Wi-Fi to remove Wi-Fi range constraints during interaction. These enhancements are out of scope for the current PoC.
