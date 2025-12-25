@@ -60,11 +60,11 @@ flowchart TD
 1. Insert the following indexes in Arduino IDE, separated by commas:
    * ATtiny Core for ATtiny85: `http://drazzy.com/package_drazzy.com_index.json`
    * Arduino Core for ESP8266: `https://arduino.esp8266.com/stable/package_esp8266com_index.json`
-2. From the Arduino IDE Package Manager install ATtiny Core and Arduino Code for ESP8266
+2. In Arduino IDE Board Manager install ATtiny Core and Arduino Core for ESP8266
 <img src="board manager.png" width="800" alt="board manager.png">
 
-4. Download the DigiKeyboard library from `https://github.com/LucaReggiannini/digikeyboard-library` and follow the instructions on GitHub page to install
-5. From `https://github.com/micronucleus/micronucleus/blob/master/commandline/49-micronucleus.rules` insert the following code into `/etc/udev/rules.d/49-micronucleus.rules` to be able to upload your sketch on ATtiny85 device (Linux only):
+3. Download the DigiKeyboard library from `https://github.com/LucaReggiannini/digikeyboard-library` and follow the instructions on GitHub page to install
+4. From `https://github.com/micronucleus/micronucleus/blob/master/commandline/49-micronucleus.rules` insert the following code into `/etc/udev/rules.d/49-micronucleus.rules` to be able to upload your sketch on ATtiny85 device (Linux only):
 ```bash
 # UDEV Rules for Micronucleus boards including the Digispark.
 # This file must be placed at:
@@ -87,17 +87,17 @@ KERNEL=="ttyACM*", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="0753", MODE:="066
 # OWNER:="yourusername" to create the device owned by you, or with
 # GROUP:="somegroupname" and mange access using standard unix groups.
 ```
-6. Additionally, to be able to upload your sketch on ESP8266, you need to have the right permissions for the `/dev/ttyUSBX` file used by the device (Linux only):
+5. Additionally, to be able to upload your sketch on ESP8266, you need to have the right permissions for the `/dev/ttyUSBX` file used by the device (Linux only):
 ```bash
 me@macbook:~$ ls -l /dev/ttyUSB0
 crw-rw---- 1 root uucp 188, 0 Dec 20 05:16 /dev/ttyUSB0
 me@macbook:~$ sudo usermod -aG uucp $USER
 ```
-7. **Read carefully the "ATtiny85Keyboard.ino" and "Esp8266AP.ino" source code to change the variables based on your testing environment (IP, PORT, PnP Device ID...)**
-8. Upload the "ATtiny85Keyboard.ino" sketch to the ATtiny85 (Micronucleus bootloader). When you plug it in, it runs the Micronucleus bootloader for a few seconds and then starts the sketch (which enumerates as a USB HID keyboard), so the Arduino IDE may prompt you to unplug and replug the device during flashing
-9. Upload the "Esp8266AP.ino" sketch to the ESP8266. The Arduino IDE will ask you to select the `/dev/ttyUSBX` port the device is connected to
-10. Configure a listener on your server, based on the IP/PORT combination you entered in the "Esp8266AP.ino" file (for example `ncat -nlvp 8888`; you may need to configure a Port Forwarding Rule on your router)
-11. Setup your Wi-Fi Rogue Access Point
-12. Attach the ESP8266 device (wait for USB drivers to install/setup) on the target Windows host
-13. Attach the ATtiny85 device and wait for the payload to be executed
-14. You should see an incoming connection on your listener 
+6. **Read carefully the "ATtiny85Keyboard.ino" and "Esp8266AP.ino" source code to change the variables based on your testing environment (IP, PORT, PnP Device ID...)**
+7. Upload the "ATtiny85Keyboard.ino" sketch to the ATtiny85 (Micronucleus bootloader). When you plug it in, it runs the Micronucleus bootloader for a few seconds and then starts the sketch (which enumerates as a USB HID keyboard), so the Arduino IDE may prompt you to unplug and replug the device during flashing
+8. Upload the "Esp8266AP.ino" sketch to the ESP8266. The Arduino IDE will ask you to select the `/dev/ttyUSBX` port the device is connected to
+9. Configure a listener (for example using Netcat) on your server, based on the IP/PORT combination you entered in the "Esp8266AP.ino" file (you may need to configure a Port Forwarding Rule on your router)
+10. Setup your Wi-Fi Rogue Access Point
+11. Attach the ESP8266 device (wait for USB drivers to be installed) on the target Windows host
+11. Attach the ATtiny85 device and wait for the payload to be executed
+13. You should see an incoming connection on your listener 
