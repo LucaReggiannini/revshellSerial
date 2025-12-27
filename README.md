@@ -10,7 +10,7 @@ These materials are provided for educational and research purposes. Any testing 
 
 Click below to see the video:
 
-[![Watch the video](https://img.youtube.com/vi/v9nBg7IyuJw/hqdefault.jpg)](https://www.youtube.com/watch?v=v9nBg7IyuJw)
+[![Watch the video](https://img.youtube.com/vi/fz-LbaSFADM/hqdefault.jpg)](https://www.youtube.com/watch?v=fz-LbaSFADM)
 
 ## Overview
 
